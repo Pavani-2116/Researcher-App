@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" data-api-base="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="api-base" content="">
+  <meta name="description" content="An evidence-first editorial workspace for turning source material into clear, careful writing.">
+  <title>SignalDesk — AI Editorial Workspace</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to workspace</a>
+  <div class="shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="/" aria-label="SignalDesk home">
+        <span class="brand-mark">S</span><span>Signal<span class="brand-light">Desk</span><small>EDITORIAL WORKSPACE</small></span>
+      </a>
+      <p class="nav-label">WORKSPACE</p>
+      <nav class="navigation">
+        <button class="nav-item active" data-view="research"><span class="nav-icon">⌕</span>Research</button>
+        <button class="nav-item" data-view="writing"><span class="nav-icon">↗</span>Writing Lab</button>
+        <button class="nav-item" data-view="studio"><span class="nav-icon">▤</span>Editorial Studio</button>
+        <button class="nav-item" data-view="saved"><span class="nav-icon">▣</span>Saved Work</button>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="mode-dot"></div><div><strong id="mode-label">Checking workspace</strong><small id="mode-detail">Local-first · evidence-led</small></div>
+      </div>
+    </aside>
+    <main id="main">
+      <header class="topbar">
+        <div><p class="eyebrow">THIS WEEK IN AI · EDITORIAL DESK</p><p id="project-label" class="project-label">Untitled research brief</p></div>
+        <button id="save-button" class="button button-outline" type="button">Save work</button>
+      </header>
+      <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+      <section id="view-research" class="view active" aria-labelledby="research-title">
+        <div class="page-heading">
+          <div><p class="eyebrow">01 / RESEARCH</p><h1 id="research-title">Start with the evidence.</h1><p class="intro">Bring together source material, inspect what each source actually says, and shape a brief that keeps fact and interpretation apart.</p></div>
+          <button id="load-demo" class="button button-soft" type="button">Load labeled demo sources</button>
+        </div>
+        <div class="panel source-panel">
+          <div class="panel-heading"><div><h2>Source desk</h2><p>Add 3–10 sources. Paste text or enter a public article URL.</p></div><span id="source-count" class="count-pill">0 / 10 sources</span></div>
+          <div class="source-form">
+            <label>Source title<input id="source-title" maxlength="240" placeholder="Article or report title"></label>
+            <label>Original URL <span class="optional">(optional for pasted text)</span><input id="source-url" type="url" placeholder="https://publication.com/story"></label>
+            <label class="wide">Article text <span class="optional">(leave blank to extract from URL)</span><textarea id="source-text" rows="4" maxlength="100000" placeholder="Paste the source text here. The original source link is retained for attribution."></textarea></label>
+            <div class="form-actions"><span class="hint">URLs are fetched server-side. Private or local network addresses are blocked.</span><button id="add-source" class="button button-primary" type="button">Add source</button></div>
+          </div>
+          <div id="source-list" class="source-list" aria-live="polite"></div>
+          <div class="bottom-actions">
+            <span class="hint">A brief needs at least three successfully processed sources.</span>
+            <button id="process-sources" class="button button-primary" type="button">Process sources &amp; build brief <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+        <div id="brief-panel" class="panel brief-panel" hidden>
+          <div class="panel-heading"><div><p class="eyebrow">SOURCE-GROUNDED SYNTHESIS</p><h2>Your research brief</h2></div><button id="copy-brief" class="button button-outline" type="button">Copy brief</button></div>
+          <div id="brief-content"></div>
+          <div class="brief-actions"><label>Choose a newsletter angle<select id="angle-select"></select></label><button id="create-draft" class="button button-primary" type="button">Create newsletter draft →</button></div>
+        </div>
+      </section>
+      <section id="view-writing" class="view" aria-labelledby="writing-title" hidden>
+        <div class="page-heading"><div><p class="eyebrow">02 / WRITING LAB</p><h1 id="writing-title">Make every sentence earn its place.</h1><p class="intro">Review deterministic writing heuristics, edit suggested replacements, then decide what belongs in your draft. Nothing is applied automatically.</p></div></div>
+        <div class="metric-grid" id="metrics"></div>
+        <div class="writing-layout">
+          <section class="panel draft-panel"><div class="panel-heading"><div><h2>Your draft</h2><p>The analyzed original stays unchanged while you review edits.</p></div><button id="analyze-draft" class="button button-primary" type="button">Analyze draft</button></div><label class="sr-only" for="draft-editor">Editable newsletter draft</label><textarea id="draft-editor" class="draft-editor" maxlength="100000" placeholder="Paste or write a draft. You can also send a newsletter draft here from the Editorial Studio."></textarea><div class="draft-actions"><button id="reset-draft" class="button button-quiet" type="button">Reset analysis</button><button id="compare-draft" class="button button-outline" type="button">Compare original &amp; revised</button></div></section>
+          <section class="panel suggestions-panel"><div class="panel-heading"><div><h2>Editorial suggestions</h2><p id="suggestion-caption">Run an analysis to see possible issues.</p></div></div><div id="suggestions" class="suggestions"></div></section>
+        </div>
+        <section id="comparison" class="panel comparison" hidden><div class="panel-heading"><div><h2>Draft comparison</h2><p>Original is preserved; revised text reflects only edits you accepted. Both use the same deterministic metrics.</p></div><button id="close-comparison" class="button button-quiet" type="button">Close</button></div><div class="compare-columns"><article><h3>Original</h3><p id="original-metrics" class="compare-metrics"></p><pre id="original-text"></pre></article><article><h3>Revised</h3><p id="revised-metrics" class="compare-metrics"></p><pre id="revised-text"></pre></article></div></section>
+      </section>
+      <section id="view-studio" class="view" aria-labelledby="studio-title" hidden>
+        <div class="page-heading"><div><p class="eyebrow">03 / EDITORIAL STUDIO</p><h1 id="studio-title">Turn a brief into a story.</h1><p class="intro">Generate a source-bounded newsletter draft, review the citations, and carry it into the Writing Lab for human-led edits.</p></div></div>
+        <div class="studio-layout"><section class="panel"><div class="panel-heading"><div><h2>Draft settings</h2><p>Only material and source records in the current brief are eligible evidence.</p></div></div><p id="studio-status" class="studio-status">Build a research brief first to enable newsletter drafting.</p><label>Newsletter angle<select id="studio-angle"></select></label><button id="generate-newsletter" class="button button-primary wide-button" type="button" disabled>Generate newsletter draft →</button></section>
+          <section class="panel"><div class="panel-heading"><div><h2>Newsletter draft</h2><p>Reported facts are cited; interpretation is labeled as analysis.</p></div><div class="button-row"><button id="open-writing" class="button button-outline" type="button">Open in Writing Lab</button><button id="export-article" class="button button-outline" type="button" disabled>Export Markdown</button></div></div><article id="newsletter-preview" class="newsletter-preview"><p class="empty-state">Your generated article will appear here. Review every claim before publication.</p></article></section>
+        </div>
+      </section>
+      <section id="view-saved" class="view" aria-labelledby="saved-title" hidden>
+        <div class="page-heading"><div><p class="eyebrow">04 / LIBRARY</p><h1 id="saved-title">Saved work.</h1><p class="intro">Reopen an editorial project where you left off, or remove a project you no longer need.</p></div><button id="refresh-saved" class="button button-outline" type="button">Refresh list</button></div>
+        <div id="saved-list" class="saved-list panel"><p class="empty-state">Saved projects will appear here.</p></div>
+      </section>
+      <footer class="footer"><span>SignalDesk · The editor makes the call.</span><span>Evidence first. Interpretation labeled. Author in control.</span></footer>
+    </main>
+  </div>
+  <dialog id="edit-dialog" class="edit-dialog"><form method="dialog"><div class="panel-heading"><div><p class="eyebrow">REVIEW A SUGGESTION</p><h2 id="edit-heading">Proposed edit</h2></div><button class="icon-button" aria-label="Close dialog" value="cancel">×</button></div><div class="edit-columns"><div><h3>Original passage</h3><p id="edit-original" class="quoted-passage"></p></div><label>Proposed replacement<textarea id="edit-replacement" rows="4"></textarea></label></div><div class="dialog-actions"><button id="reject-edit" class="button button-quiet" type="button">Reject suggestion</button><button id="accept-edit" class="button button-primary" type="button">Accept this edit</button></div></form></dialog>
+</body>
+</html>
