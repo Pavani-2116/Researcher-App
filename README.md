@@ -8,7 +8,7 @@ Source & Story helps editors transform multiple articles and public sources into
 
 **Live Demo:** https://researcher-app.onrender.com/
 
-**GitHub Repository:** https://github.com/Yamuna052005/Researcher-App
+**GitHub Repository:** https://github.com/Pavani-2116/Researcher-App
 
 **Product & Engineering Note:** [View product note](docs/product-engineering-note.md)
 
