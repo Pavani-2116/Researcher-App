@@ -3,14 +3,16 @@ services:
     name: source-and-story
     runtime: docker
     plan: starter
-    rootDir: OneDrive/Desktop/Research App
     healthCheckPath: /api/health
+
     disk:
       name: source-and-story-data
       mountPath: /var/data
       sizeGB: 1
+
     envVars:
       - key: SIGNALDESK_DB
         value: /var/data/signaldesk.sqlite3
+
       - key: SIGNALDESK_HOST
         value: 0.0.0.0
